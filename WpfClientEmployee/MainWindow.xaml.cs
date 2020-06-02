@@ -56,7 +56,7 @@ namespace WpfClientEmployee
 
             if (newEmpl.employee_id > 0)
             {
-                resultCreatedEmployee = await httpClientHR.changedEmployee(newEmpl);
+                resultCreatedEmployee = await httpClientHR.changedEmployeeAsync(newEmpl);
 
                 if (resultCreatedEmployee.code == 0)
                 {
@@ -71,7 +71,7 @@ namespace WpfClientEmployee
             }
             else
             {                
-                resultCreatedEmployee = await httpClientHR.createNewEmployee(newEmpl);
+                resultCreatedEmployee = await httpClientHR.createNewEmployeeAsunc(newEmpl);
 
                 if (resultCreatedEmployee.code == 0 && resultCreatedEmployee.employee.employee_id > 0)
                 {
@@ -93,7 +93,7 @@ namespace WpfClientEmployee
             tabEmployee.Visibility = Visibility.Hidden;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void btnAddNewEmployee_Click(object sender, RoutedEventArgs e)
         {
             tabEmployee.Visibility = Visibility.Visible;
             tabEmployee.IsSelected = true;
@@ -109,7 +109,7 @@ namespace WpfClientEmployee
         private void btnModifyEmployee_Click_1(object sender, RoutedEventArgs e)
         {
             int indexRow = dgEmployee.SelectedIndex;
-            decimal employee_id;
+            int employee_id;
 
             if (indexRow >= 0 && indexRow < dgEmployee.Items.Count - 1)
             {                
@@ -125,7 +125,7 @@ namespace WpfClientEmployee
             
         }
 
-        private async void showDetailEmployee(decimal employee_id)
+        private async void showDetailEmployee(int employee_id)
         {
             Logic.HttpClientHR httpClient = new Logic.HttpClientHR();
             tabEmployee.IsSelected = true;
@@ -136,6 +136,28 @@ namespace WpfClientEmployee
             txtName.Text = empl.name;
             txtMiddleName.Text = empl.middle_name;
             txtDateBidthDay.SelectedDate = empl.birthday;
+        }
+
+        private async void btnDeleteEmployee_Click(object sender, RoutedEventArgs e)
+        {
+            int indexRow = dgEmployee.SelectedIndex;
+            Logic.HttpClientHR httpClient = new Logic.HttpClientHR();
+            int employee_id;
+
+            if (indexRow >= 0 && indexRow < dgEmployee.Items.Count - 1)
+            {
+                var empl = (Employee)dgEmployee.SelectedItem;
+                employee_id = empl.employee_id;
+                Result result = await httpClient.deleteEmployeeAsync(employee_id);
+
+                if (result.code == 0) MessageBox.Show("Удалено");
+                else MessageBox.Show("ОШибка удаления. \n" + result.info);
+                
+            }
+            else
+            {
+                MessageBox.Show("Не выбрана строка сотрудника для удаления.");
+            }
         }
     }
 }

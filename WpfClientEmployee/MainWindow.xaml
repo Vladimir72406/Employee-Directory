@@ -15,14 +15,14 @@
                         <ColumnDefinition Width="11*"/>
                         <ColumnDefinition Width="677*"/> -->
                     </Grid.ColumnDefinitions>
-                    <GroupBox Header="Фильтр" Margin="10,0,10,332"/>
+                    <GroupBox Header="Фильтр" Margin="10,0,10,0" Height="74" VerticalAlignment="Top"/>
                     <Label x:Name="lblFilterSurname" Content="Фамилия" HorizontalAlignment="Left" Margin="65,20,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.056,-0.037"/>
                     <TextBox x:Name="txtFilterSurname" HorizontalAlignment="Left" Margin="128,24,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="18"/>
                     <Label x:Name="lblFilterName" Content="Имя" HorizontalAlignment="Left" Margin="276,19,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.665,0.003"/>
                     <Label x:Name="lblFilterMiddelName" Content="Отчество" HorizontalAlignment="Left" Margin="450,19,0,0" VerticalAlignment="Top"/>
                     <TextBox x:Name="txtFilterName" HorizontalAlignment="Left" Margin="307,23,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="18"/>
                     <TextBox x:Name="txtFilterMiddleName" HorizontalAlignment="Left" Margin="514,24,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-                    <Button x:Name="btnSearch" Content="Найти" HorizontalAlignment="Left" Margin="696,22,0,0" VerticalAlignment="Top" Width="60" Click="btnSearch_Click" Height="20"/>
+                    <Button x:Name="btnSearch" Content="Найти" Margin="650,22,20,0" VerticalAlignment="Top" HorizontalAlignment="Right" Click="btnSearch_Click" Width="60" Height="20"/>
                     <Grid Margin="0,159,0,89" Grid.ColumnSpan="3"/>
                     <DataGrid x:Name="dgEmployee" Margin="0,74,0,89" AutoGenerateColumns="False">
                         <DataGrid.Columns>
@@ -33,8 +33,9 @@
                             <DataGridTextColumn Header="Дата рождения" Width="150" Binding="{Binding Path=birthday}"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Button x:Name="btnAddNewEmployee" Content="Добавить" Margin="0,0,98,18" Click="Button_Click" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="60"/>
-                    <Button x:Name="btnModifyEmployee" Content="Изменить" Margin="0,0,10,18" Click="btnModifyEmployee_Click_1" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="60"/>
+                    <Button x:Name="btnAddNewEmployee" Content="Добавить" Margin="0,0,154,18" Click="btnAddNewEmployee_Click" Height="20"  Width="60" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+                    <Button x:Name="btnModifyEmployee" Content="Изменить" Margin="0,0,87,18" Click="btnModifyEmployee_Click_1" Height="20" Width="60" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
+                    <Button x:Name="btnDeleteEmployee" Content="Удалить"  Margin="0,0,20,18" Click="btnDeleteEmployee_Click" Width="60" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Right"  />
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabEmployee" Header="Сотрудник" Visibility="Visible">
@@ -52,13 +53,13 @@
                     <TextBox x:Name="txtSurname" HorizontalAlignment="Left" Margin="151,78,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="18"/>
                     <TextBox x:Name="txtName" HorizontalAlignment="Left" Margin="151,104,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="18"/>
                     <TextBox x:Name="txtMiddleName" HorizontalAlignment="Left" Margin="151,131,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="18"/>
-                    <Label Content="ID" Margin="49,50,620,0" VerticalAlignment="Top" Height="26" Grid.Column="2" Grid.ColumnSpan="4"/>
-                    <Label Content="Фамилия" HorizontalAlignment="Left" Margin="49,75,0,0" VerticalAlignment="Top" Height="26" Width="100" Grid.Column="2" Grid.ColumnSpan="4"/>
-                    <Label Content="Имя" Margin="49,101,620,0" VerticalAlignment="Top" Height="26" Grid.Column="2" Grid.ColumnSpan="4"/>
+                    <Label Content="ID" Margin="49,50,643,0" VerticalAlignment="Top" Height="26"/>
+                    <Label Content="Фамилия" HorizontalAlignment="Left" Margin="49,75,0,0" VerticalAlignment="Top" Height="26" Width="102"/>
+                    <Label Content="Имя" Margin="49,101,643,0" VerticalAlignment="Top" Height="26"/>
                     <Label Content="Дата рождения" HorizontalAlignment="Left" Margin="49,158,0,0" VerticalAlignment="Top" Grid.ColumnSpan="4" Height="26" Width="100" Grid.Column="2"/>
                     <Button x:Name="btnCancelModifyEmployee" Content="Отмена" HorizontalAlignment="Left" Margin="316,0,0,99" VerticalAlignment="Bottom" Click="btnCancelModifyEmployee_Click" Height="20" Width="62" HorizontalContentAlignment="Center"/>
                     <DatePicker x:Name="txtDateBidthDay" HorizontalAlignment="Left" Margin="151,158,0,0" VerticalAlignment="Top" Width="118" Height="24"/>
-                    <Label Content="Отчество" Margin="49,128,620,0" Grid.Column="2" Grid.ColumnSpan="4"/>
+                    <Label Content="Отчество" Margin="49,128,645,248"/>
                     <Button x:Name="btnSaveEmployee" Content="Сохранить" Margin="232,0,0,99"  Click="btnModifyEmployee_Click" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="20" Width="62"/>
                 </Grid>
             </TabItem>

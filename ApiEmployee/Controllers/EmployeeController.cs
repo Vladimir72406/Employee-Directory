@@ -39,7 +39,9 @@ namespace ApiEmployee.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        IRepository db = new RepositoryMSSQLCore();
+        IRepository db = new RepositoryMSSQLRF();//RepositoryMSSQLCoreEF();
+        //IRepository db = new RepositoryMSSQLCoreEF();
+
         // GET: api/Employee
         [HttpGet]
         public ResultApi Get([FromQuery] FiltrEmployee filterEmpl)
@@ -65,10 +67,10 @@ namespace ApiEmployee.Controllers
         [HttpGet("{id}", Name = "Get")]
         public ResultApi Get(int id)
         {
-            ResultApi result = new ResultApi();
-            var employee = db.getEmployee(id);
+            var result = new ResultApi();
+            var employeeResult = db.getEmployee(id);
 
-            result.employee = db.getEmployee(id);
+            result.employee = employeeResult.employee;
             result.code = 0;
             result.info = "";
             return result;            
@@ -79,19 +81,21 @@ namespace ApiEmployee.Controllers
         public ResultApi Post([FromBody] Employee newEmpl)
         {
             var resultApi = new ResultApi();
+
+
             var createdEmpl = db.createEmployee(newEmpl);
 
-            if (createdEmpl.employee_id > 0)
+            if (createdEmpl.employee.employee_id > 0)
             {
                 resultApi.code = 0;
-                resultApi.employee = createdEmpl;
+                resultApi.employee = createdEmpl.employee;
             }
             else
             {
                 resultApi.code = -1;
                 resultApi.info = "Ошибка создания сотрудника";
             }
-            
+
             return resultApi;
         }
 
@@ -100,7 +104,7 @@ namespace ApiEmployee.Controllers
         public ResultApi Put(int employee_id, [FromBody] Employee editEmployee)
         {
             var resultApi = new ResultApi();
-
+            
             ResultApi result = db.updateEmployee(employee_id, editEmployee);
 
             if (result.code == 0)
@@ -121,8 +125,19 @@ namespace ApiEmployee.Controllers
         [HttpDelete("{id}")]
         public Result Delete(int id)
         {
+            Result resultDeleteEmployee = new Result();
 
-            return new Result();
+            try
+            {
+                resultDeleteEmployee = db.deleteEmployee(id);
+            }
+            catch (Exception e)
+            {
+                resultDeleteEmployee.code = -1;
+                resultDeleteEmployee.info = "delete error => " + e.Message.ToString();
+            }
+         
+            return resultDeleteEmployee;
         }
     }
 }

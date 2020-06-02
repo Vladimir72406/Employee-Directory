@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 
 namespace WpfClientEmployee.Logic
 {
+    
     public class HttpClientHR
     {
         string urlEmployeeApi = "http://localhost:802/api/Employee";
@@ -37,7 +38,7 @@ namespace WpfClientEmployee.Logic
 
             return listEmployee;
         }
-        public async Task<ResultApi> createNewEmployee(Employee newEmployee)
+        public async Task<ResultApi> createNewEmployeeAsunc(Employee newEmployee)
         {
             HttpClient httpClient = new HttpClient();
             httpClient.BaseAddress = new Uri(urlEmployeeApi);
@@ -52,7 +53,7 @@ namespace WpfClientEmployee.Logic
             return resultApi;
         }
 
-        public async Task<Employee> getEmployeeAsync(decimal id)
+        public async Task<Employee> getEmployeeAsync(int id)
         {
             Employee employee = new Employee();
             ResultApi resultApi = new ResultApi();
@@ -71,7 +72,7 @@ namespace WpfClientEmployee.Logic
             return employee;
         }
 
-        public async Task<ResultApi> changedEmployee(Employee empl)
+        public async Task<ResultApi> changedEmployeeAsync(Employee empl)
         {
             HttpClient httpClient = new HttpClient();
 
@@ -87,6 +88,22 @@ namespace WpfClientEmployee.Logic
             ResultApi resultApi = (ResultApi)JsonConvert.DeserializeObject(resultStr, typeof(ResultApi));
 
             return resultApi;
+        }
+
+        public async Task<Result> deleteEmployeeAsync(int employee_id)
+        {
+            HttpClient httpClient = new HttpClient();
+            Result resultDelete = new Result();
+
+            httpClient.BaseAddress = new Uri(urlEmployeeApi + "/" + employee_id.ToString());
+
+            var result = await httpClient.DeleteAsync(httpClient.BaseAddress);
+
+            string stringResult = await result.Content.ReadAsStringAsync();
+            resultDelete = JsonConvert.DeserializeObject<Result>(stringResult);
+
+            return resultDelete;
+
         }
 
     }

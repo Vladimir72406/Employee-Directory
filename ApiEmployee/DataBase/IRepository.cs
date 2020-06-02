@@ -9,12 +9,14 @@ namespace ApiEmployee.DataBase
 {
     public interface IRepository
     {
-        public Employee getEmployee(int id);
+        public ResultApi getEmployee(int id);
 
         public List<Employee> getListEmployee(FiltrEmployee filterEmpl);
 
-        public Employee createEmployee(Employee newEmployee);
+        public ResultApi createEmployee(Employee newEmployee);
 
         public ResultApi updateEmployee(int id, Employee empl);
+
+        public Result deleteEmployee(int employee_id);
     }
 }

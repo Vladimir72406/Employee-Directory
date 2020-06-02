@@ -7,28 +7,55 @@ using ModelsApp.Result;
 
 namespace ApiEmployee.DataBase
 {
-    public class RepositoryMSSQLCore : IRepository
+    public class RepositoryMSSQLCoreEF : IRepository
     {
-        public Employee createEmployee(Employee newEmployee)
+        public ResultApi createEmployee(Employee newEmployee)
         {
+            ResultApi resultApi = new ResultApi();
+
+
             using (ApplicationContext db = new ApplicationContext())
             {
                 var i = db.Employee.Add(newEmployee);
                 var r = db.SaveChanges();
             }
 
-            return newEmployee;
+            if (newEmployee.employee_id != null && newEmployee.employee_id > 0)
+            {
+                resultApi.code = 0;
+                resultApi.employee = newEmployee;
+            }
+            else
+            {
+                resultApi.code = -1;
+                resultApi.info = "Ошибка создания";
+            }
+
+            return resultApi;
         }
 
-        public Employee getEmployee(int id)
+        public ResultApi getEmployee(int id)
         {
+            ResultApi resultApi = new ResultApi();
+            
             Employee empl;
             using (ApplicationContext db = new ApplicationContext())
             {
                 empl = db.Employee.FirstOrDefault(e => e.employee_id == id);                
             }
 
-            return empl;
+            if (empl != null)
+            {
+                resultApi.employee = empl;
+                resultApi.code = 0;
+            }
+            else
+            {
+                resultApi.code = -1;
+                resultApi.info = "Не найден.";
+            }
+
+            return resultApi;
         }
 
         public List<Employee> getListEmployee(FiltrEmployee filterEmpl)
@@ -64,6 +91,22 @@ namespace ApiEmployee.DataBase
             result.info = "";
                         
             return result;
+        }
+
+        public Result deleteEmployee(int employee_id)
+        {
+            Result resultDeleteEmployee = new Result();
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var empl = this.getEmployee(employee_id);
+
+                db.Employee.Remove(empl.employee);
+            }
+
+            resultDeleteEmployee.code = 0;
+            resultDeleteEmployee.info = "";
+
+            return resultDeleteEmployee;
         }
     }
 }
