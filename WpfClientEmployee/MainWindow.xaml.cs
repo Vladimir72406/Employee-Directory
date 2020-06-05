@@ -22,21 +22,28 @@ namespace WpfClientEmployee
     /// </summary>
     public partial class MainWindow : Window
     {
+        private int numberPageOfDataGrid = 1;
+        private int countInPage = 5;
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private async void btnSearch_Click(object sender, RoutedEventArgs e)
+        private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
-            FiltrEmployee filterEmpl = new FiltrEmployee();
-            filterEmpl.Surname = txtFilterSurname.Text;
-            filterEmpl.Name = txtFilterName.Text;
-            filterEmpl.Middle_name = txtFilterMiddleName.Text;
+            //FiltrEmployee filterEmpl = new FiltrEmployee();
+            //filterEmpl.Surname = txtFilterSurname.Text;
+            //filterEmpl.Name = txtFilterName.Text;
+            //filterEmpl.Middle_name = txtFilterMiddleName.Text;
 
-            Logic.HttpClientHR httpClientHR = new Logic.HttpClientHR();
-            List<Employee> result = await httpClientHR.getListEmployeeAsync(filterEmpl);
-            dgEmployee.ItemsSource = result;
+            numberPageOfDataGrid = 1;
+            //countInPage = 5;
+
+            this.showNumberPage();
+            this.showListAsync();
+            //Logic.HttpClientHR httpClientHR = new Logic.HttpClientHR();
+            //List<Employee> result = await httpClientHR.getListEmployeeAsync(filterEmpl);
+            //dgEmployee.ItemsSource = result;
         }
 
         private async void btnModifyEmployee_Click(object sender, RoutedEventArgs e)
@@ -158,6 +165,66 @@ namespace WpfClientEmployee
             {
                 MessageBox.Show("Не выбрана строка сотрудника для удаления.");
             }
+        }
+        
+        private void btnLastPage_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.numberPageOfDataGrid > 1)
+            {
+                this.numberPageOfDataGrid--;
+                this.showListAsync();
+            }
+
+            this.showNumberPage();
+        }
+
+        private void btnNextPage_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.dgEmployee.Items.Count -1 == this.countInPage)
+            {
+                this.numberPageOfDataGrid++;
+                this.showListAsync();
+            }
+
+            this.showNumberPage();
+        }
+
+        private async void showListAsync()
+        {
+            FiltrEmployee filterEmpl = new FiltrEmployee();
+            filterEmpl.Surname = txtFilterSurname.Text;
+            filterEmpl.Name = txtFilterName.Text;
+            filterEmpl.Middle_name = txtFilterMiddleName.Text;
+
+            filterEmpl.countInPage = this.countInPage;
+            filterEmpl.numberPage = this.numberPageOfDataGrid;
+
+            Logic.HttpClientHR httpClientHR = new Logic.HttpClientHR();
+            List<Employee> result = await httpClientHR.getListEmployeeAsync(filterEmpl);
+            dgEmployee.ItemsSource = result;
+
+        }
+
+        private void showNumberPage()
+        {
+            lblNumberPage.Content = "Страница " + this.numberPageOfDataGrid;
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            string newCountInPage = ((ComboBoxItem)((ComboBox)sender).SelectedItem).Content.ToString();
+            
+            if (newCountInPage == string.Empty)
+            {
+                this.countInPage = 5;
+            }
+            else
+            {
+                this.countInPage = Convert.ToInt32(newCountInPage);
+            }
+
+            
         }
     }
 }

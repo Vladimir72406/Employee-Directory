@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfClientEmployee"
         mc:Ignorable="d"
-        Title="AppHR" Height="450" Width="800">
+        Title="AppHR" Height="450" Width="800"
+        MinHeight="450" MinWidth="800"
+        >
     <Grid>
         <TabControl x:Name="tabLstEmployee">
             <TabItem x:Name="tabListEmployee" Header="Сотрудники">
@@ -36,9 +38,18 @@
                     <Button x:Name="btnAddNewEmployee" Content="Добавить" Margin="0,0,154,18" Click="btnAddNewEmployee_Click" Height="20"  Width="60" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
                     <Button x:Name="btnModifyEmployee" Content="Изменить" Margin="0,0,87,18" Click="btnModifyEmployee_Click_1" Height="20" Width="60" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
                     <Button x:Name="btnDeleteEmployee" Content="Удалить"  Margin="0,0,20,18" Click="btnDeleteEmployee_Click" Width="60" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Right"  />
+                    <Button x:Name="btnLastPage" Content="&lt;" Margin="-110,0,0,45" Click="btnLastPage_Click" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="40"/>
+                    <Button x:Name="btnNextPage" Content="&gt;" Margin="110,0,0,45" Click="btnNextPage_Click" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="40"/>
+                    <Label x:Name="lblNumberPage" Content="Страница 1" Margin="0,0,0,39" Height="26" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+                    <Image HorizontalAlignment="Left" Height="28" Margin="10,341,0,0" VerticalAlignment="Top" Width="57"/>
+                    <ComboBox x:Name="cbCountRowInPage" SelectedIndex="0" HorizontalAlignment="Left" Margin="103,0,0,45" Width="120" SelectionChanged="ComboBox_SelectionChanged" Height="22" VerticalAlignment="Bottom">
+                        <ComboBoxItem>5</ComboBoxItem>
+                        <ComboBoxItem>10</ComboBoxItem>
+                    </ComboBox>
+                    <Label Content="Кол-во строк :" Margin="14,0,0,43" Height="26" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="88"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="tabEmployee" Header="Сотрудник" Visibility="Visible">
+            <TabItem x:Name="tabEmployee" Header="Сотрудник" Visibility="Hidden">
                 <Grid x:Name="grdTabEmployee" Background="#FFE5E5E5" RenderTransformOrigin="0.528,0.574">
                     <Grid.ColumnDefinitions>
                         <!--<ColumnDefinition Width="18*"/>

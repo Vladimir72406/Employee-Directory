@@ -201,11 +201,21 @@ namespace ApiEmployee.DataBase
 
                 SqlParameter sp_middleName = new SqlParameter("@middle_name", System.Data.SqlDbType.NVarChar);                
                 sp_middleName.Value = filterEmpl.Middle_name;
-                sp_middleName.Direction = System.Data.ParameterDirection.Input;                
+                sp_middleName.Direction = System.Data.ParameterDirection.Input;
 
+                SqlParameter sp_numberPage = new SqlParameter("@numberPage", System.Data.SqlDbType.Int);
+                sp_numberPage.Value = filterEmpl.numberPage;
+                sp_numberPage.Direction = System.Data.ParameterDirection.Input;
+
+                SqlParameter sp_countInPage = new SqlParameter("@countInPage", System.Data.SqlDbType.Int);
+                sp_countInPage.Value = filterEmpl.countInPage;
+                sp_countInPage.Direction = System.Data.ParameterDirection.Input;
+                
                 command.Parameters.Add(sp_surname);
                 command.Parameters.Add(sp_name);
                 command.Parameters.Add(sp_middleName);
+                command.Parameters.Add(sp_numberPage);
+                command.Parameters.Add(sp_countInPage);
 
                 command.Connection.Open();
 

@@ -1,0 +1,4 @@
+﻿
+
+create database galaxy 
+go

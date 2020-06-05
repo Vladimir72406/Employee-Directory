@@ -11,5 +11,9 @@ namespace ModelsApp.Employee
         public string Surname { get; set; }
 
         public string Middle_name { get; set; }
+
+        public int numberPage { get; set; }
+
+        public int countInPage { get; set; }
     }
 }

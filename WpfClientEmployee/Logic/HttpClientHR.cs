@@ -23,7 +23,8 @@ namespace WpfClientEmployee.Logic
 
             HttpClient client = new HttpClient();
 
-            string req = urlEmployeeApi + "?Surname=" + filtrEmpl.Surname + "&Name=" + filtrEmpl.Name + "&Middle_name=" + filtrEmpl.Middle_name;            
+            string req = urlEmployeeApi + "?Surname=" + filtrEmpl.Surname + "&Name=" +
+                filtrEmpl.Name + "&Middle_name=" + filtrEmpl.Middle_name + "&countInPage=" + filtrEmpl.countInPage + "&numberPage=" + filtrEmpl.numberPage;
 
             HttpResponseMessage response = await client.GetAsync(req);
             response.EnsureSuccessStatusCode();            
