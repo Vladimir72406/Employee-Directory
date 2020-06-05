@@ -1,9 +1,11 @@
-﻿using ModelsApp.Employee;
+﻿using Microsoft.Extensions.Configuration;
+using ModelsApp.Employee;
 using ModelsApp.Result;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,7 +13,14 @@ namespace ApiEmployee.DataBase
 {
     public class RepositoryMSSQLRF : IRepository
     {
-        string sqlConnectionString = @"Data Source=DESKTOP-ICVUT79;Initial Catalog=galaxy;Integrated Security=True;";
+        IConfigurationRoot configuration;
+        string sqlConnectionString = "";//@"Data Source=DESKTOP-ICVUT79;Initial Catalog=galaxy;Integrated Security=True;";
+
+        public RepositoryMSSQLRF()
+        {
+            configuration = this.GetConfiguration();
+            this.sqlConnectionString = configuration["ConnectionStrings:DefaultConnection"];
+        }
 
         public ResultApi createEmployee(Employee newEmployee)
         {
@@ -161,6 +170,7 @@ namespace ApiEmployee.DataBase
                         empl.surname = Convert.ToString(reader.GetValue(1));
                         empl.name = Convert.ToString(reader.GetValue(2));
                         empl.middle_name = Convert.ToString(reader.GetValue(3));
+                        empl.birthday = reader.GetValue(4) == DBNull.Value ? default(DateTime) : Convert.ToDateTime(reader.GetValue(4));
                     }
                 }
 
@@ -301,6 +311,12 @@ namespace ApiEmployee.DataBase
             resultUpdateEmplouee.info = info;
 
             return resultUpdateEmplouee;
+        }
+
+        public IConfigurationRoot GetConfiguration()
+        {
+            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            return builder.Build();
         }
     }
 }

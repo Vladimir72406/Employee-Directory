@@ -39,7 +39,7 @@ namespace ApiEmployee.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        IRepository db = new RepositoryMSSQLRF();//RepositoryMSSQLCoreEF();
+        IRepository db = InstanceDB.getInstance();//new RepositoryMSSQLRF();//RepositoryMSSQLCoreEF();
         //IRepository db = new RepositoryMSSQLCoreEF();
 
         // GET: api/Employee

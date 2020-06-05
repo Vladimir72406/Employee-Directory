@@ -20,7 +20,7 @@ namespace ApiEmployee.DataBase
                 var r = db.SaveChanges();
             }
 
-            if (newEmployee.employee_id != null && newEmployee.employee_id > 0)
+            if (newEmployee.employee_id > 0)
             {
                 resultApi.code = 0;
                 resultApi.employee = newEmployee;
@@ -60,18 +60,25 @@ namespace ApiEmployee.DataBase
 
         public List<Employee> getListEmployee(FiltrEmployee filterEmpl)
         {
+            if (filterEmpl.countInPage == null || filterEmpl.countInPage == 0)
+                filterEmpl.countInPage = 5;
+
+            if (filterEmpl.numberPage == null || filterEmpl.numberPage == 0)
+                filterEmpl.numberPage = 0;
+
             List<Employee> listEmployee = new List<Employee>();
             using (ApplicationContext db = new ApplicationContext())
             {
                 if (filterEmpl == null | (filterEmpl.Surname == null && filterEmpl.Name== null && filterEmpl.Middle_name == null))
                 {
-                    listEmployee = db.Employee.ToList();
+                    listEmployee = db.Employee.Skip((filterEmpl.numberPage-1) * filterEmpl.countInPage).Take(filterEmpl.countInPage).ToList();
                 }
                 else
                 {
                     listEmployee = db.Employee.Where(p => (p.surname.StartsWith(filterEmpl.Surname) || filterEmpl.Surname==null ) && 
                                                            (p.name.StartsWith(filterEmpl.Name) || filterEmpl.Name == null) &&
-                                                            (p.middle_name.StartsWith(filterEmpl.Middle_name) || filterEmpl.Middle_name == null)).ToList();
+                                                            (p.middle_name.StartsWith(filterEmpl.Middle_name) || filterEmpl.Middle_name == null))
+                        .Skip((filterEmpl.numberPage - 1) * filterEmpl.countInPage).Take(filterEmpl.countInPage).ToList();
                 }
             }
             return listEmployee;

@@ -65,7 +65,11 @@ namespace WpfClientEmployee
             {
                 resultCreatedEmployee = await httpClientHR.changedEmployeeAsync(newEmpl);
 
-                if (resultCreatedEmployee.code == 0)
+                if (resultCreatedEmployee == null && resultCreatedEmployee.code == null)
+                {
+                    MessageBox.Show("Ошибка при сохранении изменений. ");
+                }
+                else if (resultCreatedEmployee.code == 0)
                 {
                     MessageBox.Show("Сохранено");
                     tabListEmployee.IsSelected = true;

@@ -66,12 +66,12 @@
                     <TextBox x:Name="txtMiddleName" HorizontalAlignment="Left" Margin="151,131,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="18"/>
                     <Label Content="ID" Margin="49,50,643,0" VerticalAlignment="Top" Height="26"/>
                     <Label Content="Фамилия" HorizontalAlignment="Left" Margin="49,75,0,0" VerticalAlignment="Top" Height="26" Width="102"/>
-                    <Label Content="Имя" Margin="49,101,643,0" VerticalAlignment="Top" Height="26"/>
+                    <Label Content="Имя" Margin="49,101,643,0" VerticalAlignment="Top" Height="26" HorizontalAlignment="Left"/>
                     <Label Content="Дата рождения" HorizontalAlignment="Left" Margin="49,158,0,0" VerticalAlignment="Top" Grid.ColumnSpan="4" Height="26" Width="100" Grid.Column="2"/>
                     <Button x:Name="btnCancelModifyEmployee" Content="Отмена" HorizontalAlignment="Left" Margin="316,0,0,99" VerticalAlignment="Bottom" Click="btnCancelModifyEmployee_Click" Height="20" Width="62" HorizontalContentAlignment="Center"/>
                     <DatePicker x:Name="txtDateBidthDay" HorizontalAlignment="Left" Margin="151,158,0,0" VerticalAlignment="Top" Width="118" Height="24"/>
-                    <Label Content="Отчество" Margin="49,128,645,248"/>
                     <Button x:Name="btnSaveEmployee" Content="Сохранить" Margin="232,0,0,99"  Click="btnModifyEmployee_Click" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="20" Width="62"/>
+                    <Label Content="Отчество" Margin="49,128,645,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                 </Grid>
             </TabItem>
         </TabControl>
