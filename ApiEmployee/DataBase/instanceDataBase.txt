@@ -1,6 +1,186 @@
-﻿
-
-create database galaxy
+﻿create database galaxy
 go
 
+
+CREATE TABLE Employee
+(
+	employee_id int PRIMARY KEY IDENTITY(1,1),
+	surname		varchar(100) NULL,
+	name		varchar(100) NULL,
+	middle_name varchar(100) NULL,
+	birthday	datetime NULL
+)
+go
+GRANT SELECT ON dbo.Employee TO public
+go
+GRANT UPDATE ON dbo.Employee TO public
+go
+GRANT insert ON dbo.Employee TO public
+go
+
+
+
+ALTER procedure [dbo].[iud_employee]
+(
+	@iud			int				= 0, --inser, update, delete
+	@employee_id	int				= null,
+	@surname		nvarchar(255)	= NULL,
+	@name			nvarchar(255)	= NULL,
+	@middle_name	nvarchar(255)	= null,
+	@birthday		datetime		= null
+)
+as
+BEGIN
+
+DECLARE @ret int, 
+		@info nvarchar
+	
+
+	IF @iud = 0
+	BEGIN
+		SELECT	@ret = -1, 
+				@info = 'Не указан тип операции'
+	END
+	ELSE IF @iud = 1
+	BEGIN
+		INSERT INTO Employee (surname, [name], middle_name, birthday)
+		VALUES (@surname, @name, @middle_name, @birthday)
+
+		if @@ERROR = 0
+		BEGIN
+			SELECT @ret = @@identity
+		END
+		ELSE
+		BEGIN
+			SELECT @ret = -1, @info = 'Ошибка вставки в Employee'
+		END
+		
+	END
+	ELSE IF @iud = 2
+	BEGIN
+		UPDATE
+				Employee
+		SET
+				surname = @surname,
+				name = @name,
+				middle_name = @middle_name,
+				birthday = @birthday
+		WHERE
+				employee_id = @employee_id
+
+		SELECT	@ret = 0,
+				@info = 'ОК'
+	END
+	ELSE IF @iud = 3
+	BEGIN
+		DELETE FROM Employee
+		WHERE	employee_id = @employee_id
+
+		if EXISTS(SELECT 1 FROM Employee where employee_id = @employee_id)
+		BEGIN
+			SELECT
+					@ret = -1, @info = 'Ошибка удаления'
+		END
+		ELSE
+		BEGIN
+			SELECT
+					@ret = 0, @info = 'OK'
+		END
+	END
+
+	SELECT @ret, @info
+END
+
+
+--------------------
+ALTER procedure [dbo].[get_employee_list]
+(
+	@surname		varchar(100) = '',
+	@name			varchar(100) = '',
+	@middle_name	varchar(100) = '',
+	@numberPage		int = 1,
+	@countInPage	int = 1
+)
+AS
+BEGIN	
+	SELECT	@surname	= TRIM(@surname),
+			@name		= TRIM(@name),
+			@middle_name= TRIM(@middle_name),
+			@numberPage = CASE
+								WHEN ISNULL(@numberPage,0) <= 0 THEN 1
+								else @numberPage
+							END,							
+			@countInPage = CASE
+								WHEN ISNULL(@countInPage,0) <= 0 THEN 1
+								else @countInPage
+							END
+
+	SELECT
+			@surname = CASE 
+							WHEN @surname = '' THEN ''
+							ELSE UPPER(SUBSTRING(@surname,1,1)) + SUBSTRING(@surname,2,LEN(@surname))
+						END,
+			@name = CASE 
+							WHEN @name = '' THEN ''
+							ELSE UPPER(SUBSTRING(@name,1,1)) + SUBSTRING(@name,2,LEN(@name))
+						END,
+			@middle_name = CASE 
+							WHEN @middle_name = '' THEN ''
+							ELSE UPPER(SUBSTRING(@middle_name,1,1)) + SUBSTRING(@middle_name,2,LEN(@middle_name))
+						END
+
+
+	SELECT
+			empl.employee_id,
+			empl.surname,
+			empl.[name],
+			empl.middle_name,
+			empl.birthday
+	FROM
+			Employee empl
+	WHERE
+			empl.surname like ISNULL(@surname,'') + '%' AND
+			empl.name like ISNULL(@name,'') + '%' AND
+			empl.middle_name like ISNULL(@middle_name,'') + '%' 
+	order by
+			empl.employee_id
+	OFFSET (@numberPage - 1) * @countInPage ROWS FETCH NEXT @countInPage ROWS ONLY
+
+	--grant execute on [dbo].[get_employee_list] to public 
+	--go
+END
+
+
+
+
+-------------------------------
+ALTER procedure [dbo].[get_employee_by_id]
+(
+	@id int = 0
+)
+AS
+BEGIN	
+
+	SELECT
+			empl.employee_id,
+			empl.surname,
+			empl.[name],
+			empl.middle_name,
+			empl.birthday
+	FROM
+			Employee empl
+	WHERE
+			empl.employee_id = @id
+
+	--grant execute on [dbo].[get_employee_by_id] to public 
+	--go
+END
+
+-------------------------------------
+grant execute on get_employee_by_id to public 
+go
+grant execute on get_employee_list to public 
+go
+grant execute on iud_employee to public 
+go
 
