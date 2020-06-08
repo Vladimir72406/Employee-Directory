@@ -7,7 +7,7 @@ using ModelsApp.Result;
 
 namespace ApiEmployee.DataBase
 {
-    public class RepositoryMSSQLCoreEF : IRepository
+    public class RepositoryMSSQLCoreEF : IRepositoryEmployee
     {
         public ResultApi createEmployee(Employee newEmployee)
         {

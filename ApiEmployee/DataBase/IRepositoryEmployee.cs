@@ -7,7 +7,7 @@ using ModelsApp.Result;
 
 namespace ApiEmployee.DataBase
 {
-    public interface IRepository
+    public interface IRepositoryEmployee
     {
         public ResultApi getEmployee(int id);
 

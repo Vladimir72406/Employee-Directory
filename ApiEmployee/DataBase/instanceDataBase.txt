@@ -20,6 +20,26 @@ go
 
 
 
+create table Contact
+(
+	contact_id int primary key identity(1,1),
+	employee_id int not null,--foren key on employee(employee_id)
+	contact_type int not null,
+	content varchar(255) null,
+	comment varchar(255) null,
+	verify	smallint default 0
+)
+grant select on Contact to public
+go
+
+grant update on Contact to public
+go
+
+grant insert on Contact to public
+go
+
+
+
 ALTER procedure [dbo].[iud_employee]
 (
 	@iud			int				= 0, --inser, update, delete

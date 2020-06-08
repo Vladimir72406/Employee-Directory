@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ApiEmployee.DataBase.MSSQLRF;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,17 +8,28 @@ namespace ApiEmployee.DataBase
 {
     public static class InstanceDB
     {        
-        private static IRepository repository;
+        private static IRepositoryEmployee repositoryEmployee;
+        private static IRepositoryContact repositoryContact;
 
-        public static IRepository getInstance()
+        public static IRepositoryEmployee getInstanceEmployee()
         {
-            if (repository == null)
+            if (repositoryEmployee == null)
             {
-                repository = new RepositoryMSSQLRF();
+                repositoryEmployee = new RepositoryMSSQLRF();
                 //repository = new RepositoryMSSQLCoreEF();
             }
 
-            return repository;
+            return repositoryEmployee;
+        }
+
+        public static IRepositoryContact getInstanceContact()
+        {
+            if (repositoryContact == null)
+            {
+                repositoryContact = new RepositoryContactMSSQLRF();                
+            }
+
+            return repositoryContact;
         }
 
         

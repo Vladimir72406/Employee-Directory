@@ -39,7 +39,7 @@ namespace ApiEmployee.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        IRepository db = InstanceDB.getInstance();//new RepositoryMSSQLRF();//RepositoryMSSQLCoreEF();
+        IRepositoryEmployee db = InstanceDB.getInstanceEmployee();//new RepositoryMSSQLRF();//RepositoryMSSQLCoreEF();
         //IRepository db = new RepositoryMSSQLCoreEF();
 
         // GET: api/Employee
@@ -64,7 +64,7 @@ namespace ApiEmployee.Controllers
         }
 
         // GET: api/Employee/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")/*, Name = "Get")*/]
         public ResultApi Get(int id)
         {
             var result = new ResultApi();

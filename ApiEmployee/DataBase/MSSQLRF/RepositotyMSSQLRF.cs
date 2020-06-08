@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ApiEmployee.DataBase
 {
-    public class RepositoryMSSQLRF : IRepository
+    public class RepositoryMSSQLRF : IRepositoryEmployee
     {
         IConfigurationRoot configuration;
         string sqlConnectionString = "";//@"Data Source=DESKTOP-ICVUT79;Initial Catalog=galaxy;Integrated Security=True;";

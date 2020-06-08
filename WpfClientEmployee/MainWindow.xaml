@@ -51,15 +51,7 @@
             </TabItem>
             <TabItem x:Name="tabEmployee" Header="Сотрудник" Visibility="Hidden">
                 <Grid x:Name="grdTabEmployee" Background="#FFE5E5E5" RenderTransformOrigin="0.528,0.574">
-                    <Grid.ColumnDefinitions>
-                        <!--<ColumnDefinition Width="18*"/>
-                        <ColumnDefinition Width="7*"/>
-                        <ColumnDefinition Width="65*"/>
-                        <ColumnDefinition Width="Auto" MinWidth="16.381"/>
-                        <ColumnDefinition Width="0*"/>
-                        <ColumnDefinition Width="688*"/>-->
-                    </Grid.ColumnDefinitions>
-                    <GroupBox Header="GroupBox" Margin="10,10,397,131" Grid.ColumnSpan="6"/>
+                    <GroupBox Header="GroupBox" Margin="10,10,19,131"/>
                     <TextBox x:Name="txtemployee_id" HorizontalAlignment="Left" Margin="151,54,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="18" IsEnabled="False"/>
                     <TextBox x:Name="txtSurname" HorizontalAlignment="Left" Margin="151,78,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="18"/>
                     <TextBox x:Name="txtName" HorizontalAlignment="Left" Margin="151,104,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="18"/>
@@ -72,8 +64,30 @@
                     <DatePicker x:Name="txtDateBidthDay" HorizontalAlignment="Left" Margin="151,158,0,0" VerticalAlignment="Top" Width="118" Height="24"/>
                     <Button x:Name="btnSaveEmployee" Content="Сохранить" Margin="232,0,0,99"  Click="btnModifyEmployee_Click" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="20" Width="62"/>
                     <Label Content="Отчество" Margin="49,128,645,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+
+                    <DataGrid x:Name="dgContacts" Margin="445,32,59,219" AutoGenerateColumns="False">
+
+                        <DataGrid.Columns>                            
+                            <DataGridTextColumn Visibility="Hidden" Header="contact_id" Width="40" Binding="{Binding Path=contact_id}"/>                            
+                            <DataGridTextColumn Header="Тип" Width="40" Binding="{Binding Path=contact_type}"/>
+                            <DataGridTextColumn Header="Контакт" Width="200" Binding="{Binding Path=content}"/>
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+
+                    <ComboBox x:Name="cbTypeContact" SelectedIndex="0" HorizontalAlignment="Left" Margin="445,197,0,0" Width="112" VerticalAlignment="Top">
+                        <ComboBoxItem DataContext="1">Моб.телефон</ComboBoxItem>
+                        <ComboBoxItem DataContext="2">Рабочий телефон</ComboBoxItem>
+                        <ComboBoxItem DataContext="3">Email</ComboBoxItem>
+                    </ComboBox>
+
+                    <TextBox x:Name="txtContact" HorizontalAlignment="Left" Margin="562,197,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="173"/>
+                    <Button x:Name="btnAddContact" Content="Добавить" HorizontalAlignment="Left" Margin="625,222,0,0" VerticalAlignment="Top" Click="btnAddContact_Click"/>
+                    <Button x:Name="btnDeleteContact" Content="Удалить" HorizontalAlignment="Left" Margin="686,222,0,0" VerticalAlignment="Top" Click="btnDeleteContact_Click"/>
                 </Grid>
             </TabItem>
         </TabControl>
     </Grid>
 </Window>
+
+    
