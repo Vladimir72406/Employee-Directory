@@ -204,3 +204,85 @@ go
 grant execute on iud_employee to public 
 go
 
+
+-----------------------------------------------------------
+create procedure [dbo].[iud_contact]
+(
+	@iud int = null,
+	@contact_id int = null,
+	@employee_id int = null,
+	@contact_type int = null,
+	@content varchar(255) = null,
+	@comment varchar(255) = null,
+	@verify int = null
+)
+AS
+BEGIN
+
+	DECLARE @ret int,
+			@info varchar(255)
+
+	IF @iud = 1
+	BEGIN
+		INSERT INTO contact(/*contact_id,*/employee_id,contact_type,content,comment,verify)
+		VALUES(/*contact_id,*/@employee_id,@contact_type,@content,@comment,@verify)
+
+		IF @@ERROR <> 0
+		BEGIN
+			SELECT	@ret = -1, 
+					@info = 'Ошибка вставки данных'
+		END
+		ELSE
+		BEGIN
+			SET @ret = @@identity
+		END
+		
+	END
+	ELSE IF @iud = 2
+	BEGIN
+		UPDATE
+				contact
+		SET
+				--contact_id = @contact_id,
+				employee_id = @employee_id,
+				contact_type = @contact_type,
+				content = @content,
+				comment = @comment,
+				verify = @verify
+		WHERE
+				contact_id = @contact_id
+
+
+		IF @@ERROR <> 0
+		BEGIN
+			SELECT	@ret = -1, 
+					@info = 'Ошибка изменения данных'
+		END
+		ELSE
+		BEGIN
+			SET @ret = @contact_id
+		END
+
+	END
+	ELSE IF @iud = 3
+	BEGIN
+		DELETE FROM contact 
+		WHERE
+				contact_id = @contact_id
+
+		IF @@ERROR <> 0
+		BEGIN
+			SELECT	@ret = -1, 
+					@info = 'Ошибка удаления'
+		END
+		ELSE
+		BEGIN
+			SET @ret = 0
+		END		
+	END
+
+	SELECT	@ret, @info
+	--grant execute on iud_contact to public 
+	--go
+END
+
